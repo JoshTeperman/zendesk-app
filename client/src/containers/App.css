@@ -24,4 +24,6 @@
 .tickets-table { 
   background: yellow;
   grid-area: 3 / 2 / 4 / 3; 
+  display: block;
+  overflow: auto; 
 }

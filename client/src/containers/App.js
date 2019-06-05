@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import TicketList from '../components/TicketList'
+import Scroll from '../components/Scroll'
 const apiModule = require('../APIhelper.js')
 
 
@@ -29,18 +30,18 @@ class App extends Component {
           <Navbar />
           <Sidebar />
           <Header totalTickets={ ticketData.length }/>
-          <table className="tickets-table">
-            <tbody>
-              <tr className="table-headers">
-                <th>Subject</th>
-                <th>Requested</th>
-                <th>Requester</th>
-                <th>Status</th>
-                <th>Priority</th>
-              </tr>
-              <TicketList tickets = { this.state.ticketData }/>
-            </tbody>
-          </table>
+            <table className="tickets-table">
+              <tbody>
+                <tr className="table-headers">
+                  <th>Subject</th>
+                  <th>Requested</th>
+                  <th>Requester</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                </tr>
+                <TicketList tickets={ this.state.ticketData }/>
+              </tbody>
+            </table>
         </div>
       )
   }
