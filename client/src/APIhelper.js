@@ -7,7 +7,6 @@ const getTickets = async () => {
 
   const json = await response.json()  
   const tickets = json.tickets
-
   return formatTicketData(tickets)
 }
 
@@ -24,7 +23,6 @@ const formatTicketData = (tickets) => {
       requested: ticket.created_at,
       requester: ticket.requester_id
     }
-    // console.log(formattedTicket)
     return formattedTicket
   })
   return ticketsArray

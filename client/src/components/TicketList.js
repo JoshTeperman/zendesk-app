@@ -1,23 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Ticket from './Ticket'
 
-class TicketList extends Component {
+let TicketList = ({ tickets }) => {
 
+  return(
 
-  render() {
-    const tickets = this.props.tickets
-    const ticketList = tickets.map((ticket) => {
-      return <Ticket description={ticket.description}/>
-    })
-
-    return(
-      <ul>
-        {ticketList}
-      </ul>
-      // <Ticket description={tickets}/>
-    )
-  }
+    <React.Fragment>
+      {
+        tickets.map((ticket, i) => {
+          return (
+            <tr key={i}>
+              <Ticket 
+                subject={ticket.subject}
+                requested={ticket.requested}
+                requester={ticket.requester}
+                status={ticket.status}
+                priority={ticket.priority}
+              />
+            </tr>
+          )
+        })
+      }
+    </React.Fragment>
+  )
 }
-
 
 export default TicketList;

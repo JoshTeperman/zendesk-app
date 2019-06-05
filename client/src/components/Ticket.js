@@ -1,13 +1,16 @@
 import React from 'react'
 
-let Ticket = ({ description }) => {
+let Ticket = ({ subject, requested, requester, status, priority }) => {
 
   return(
-    <div>
-      <p>{description}</p>
-    </div>
+    <React.Fragment>
+      <td>{subject}</td>
+      <td>{requested}</td>
+      <td>{requester}</td>
+      <td>{status}</td>
+      <td>{priority}</td>
+    </React.Fragment>
   )
-
 }
 
 export default Ticket;
