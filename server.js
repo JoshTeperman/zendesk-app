@@ -13,10 +13,10 @@ app.use(express.json())
 // Routes
 
 app.get('/tickets', (req, res) => {
-
+  let url = 'https://joshteperman.zendesk.com/api/v2/tickets?per_page=25'
   const zendeskAPI = {
     method: 'get',
-    url: 'https://joshteperman.zendesk.com/api/v2/tickets',
+    url: url,
     auth: {
       username: 'joshteperman@gmail.com',
       password: 'zendesk'
@@ -24,7 +24,7 @@ app.get('/tickets', (req, res) => {
   }
   axios(zendeskAPI)
     .then((response) => {
-      res.send(response.data  )
+      res.send(response.data)
     })
     .catch((err) => {
       res.status(404).send(err.message)
@@ -34,3 +34,4 @@ app.get('/tickets', (req, res) => {
 app.listen(port, (req, res) => {
   console.log(`listening on port ${port}`)
 })
+

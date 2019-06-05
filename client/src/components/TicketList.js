@@ -23,6 +23,8 @@ let TicketList = ({ tickets }) => {
       }
     </React.Fragment>
   )
+
+  
 }
 
 export default TicketList;
