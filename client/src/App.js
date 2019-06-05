@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import TicketList from './'
+import TicketList from './components/TicketList'
 const apiModule = require('./APIhelper.js')
 
 
@@ -8,32 +8,36 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      ticketData: null,
+      ticketData: [],
     }
   }
 
   async componentDidMount() {
     const ticketData = await apiModule.getTickets()
-    // console.log(ticketData)
     this.setState({ ticketData: ticketData })
   }
 
-  display(){
-    // const currentData = this.state.ticketData
-    // console.log(currentData)
-    // console.log('hello from inside display function')
-    // this.setState({data: 'test'})
-  }
 
   render(){
-    return (
-      <div className="app">
-        <p>
-          {this.state.ticketData}
-        </p>
-        <TicketList className="ticket-list"/>
-      </div>
-    );
+    const { ticketData } = this.state
+    return !ticketData.length ? 
+      <h1>Loading...</h1> :
+      (
+        <div>
+          <TicketList className="ticket-list" 
+            tickets = { this.state.ticketData }
+          />
+        </div>
+      )
+
+
+    // return (
+    //   <div className="app">
+    //     <TicketList className="ticket-list" 
+    //       tickets = { this.state.ticketData }
+    //     />
+    //   </div>
+    // );
   }
 }
 
