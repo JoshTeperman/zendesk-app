@@ -1,0 +1,27 @@
+{
+  "name": "zendesk-app",
+  "version": "1.0.0",
+  "description": "`Zendesk is a customer service tool that allows the creation and management of support tickets.`",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoshTeperman/zendesk-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoshTeperman/zendesk-app/issues"
+  },
+  "homepage": "https://github.com/JoshTeperman/zendesk-app#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
