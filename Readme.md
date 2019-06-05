@@ -66,6 +66,7 @@ I decided to build a static single-page website that loads when the user visits 
 
 __MVP__
 - Display tickets on page load - single page view
+- Tickets are displayed newest to oldest, to minimise pagination errors.
 - Display tickets in list with full details visible
 - Pagination (25 per page)
 - Happy Path Tests
@@ -171,8 +172,19 @@ When building an API client, we recommend treating any 500 status codes as a war
 If submitting a ticket to Support, provide the X-Zendesk-Request-Id header included in the HTTP response. This helps the Support team track down the request in the logs more quickly.
 ```
 
-```
 # Pagination & Sorting
+
+## Limitations
+```
+Paginated data may be inaccurate because of the real-time nature of the data. One or more items may be added or removed from your database instance between next page requests and during the course of iterating over all the items.
+
+In the stateless, page-based pagination approach used by the Zendesk REST API and others like it, each next page request causes the server to query the database and return the specified subset. The full record set is not retrieved and stored statically in memory for follow-up requests.
+
+The server uses the total record count divided by the maximum number of records per page to determine the subset of records to return with each next page request. If the total record count changes between requests, the subset of records selected for the subsequent requests may change too. If records are added, some records may be selected again. If records are removed, some records may be skipped. To better understand this phenomenon, see Paginating Real-Time Data with Cursor Based Pagination on sitepoint.com.
+
+One way to reduce pagination inaccuracies -- though not eliminate them altogether -- is to sort the results from oldest to newest so that new records added during pagination affect only the last pages, if at all. All things being equal, the early pages always have the same 100 sorted records even if the total record count changes.
+```
+
 By default, most list endpoints return a maximum of 100 records per page. You can change the number of records on a per-request basis by passing a per_page parameter in the request URL parameters. Example: per_page=50. However, you can't exceed 100 records per page on most endpoints.
 
 When the response exceeds the per-page maximum, you can paginate through the records by incrementing the page parameter. Example: page=3. List results include next_page and previous_page URLs in the response body for easier navigation
