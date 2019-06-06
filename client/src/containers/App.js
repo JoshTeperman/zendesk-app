@@ -9,29 +9,46 @@ const apiModule = require('../APIHelper.js')
 
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
-      ticketData: [],
-      currentPageNum: "", // integer
-      pages: []
+      currentTickets: [],
+      totalTickets: null,
+      pages: {},
+      pageHistory: []
     }
   }
 
+  updatePage = (response) => {
+    this.setState({ 
+        currentTickets: response.ticketData,
+        totalTickets: response.totalTickets,
+        pages: response.pages,
+        pageHistory: this.state.pageHistory.concat(response.ticketData)
+    })
+  }
+
   async componentDidMount() {
-    const ticketData = await apiModule.getTickets()
-    this.setState({ ticketData: ticketData })
+    const response = await apiModule.getTickets()
+    this.updatePage(response)
+  }
+
+  loadPage = async (url) => {
+    const response = await apiModule.getPage(url)
+    console.log(response)
+    console.log(this)
+    this.updatePage(response)
   }
 
   render(){
-    const { ticketData } = this.state
-    return !ticketData.length ? 
+    const {currentTickets, totalTickets, pages} = this.state
+    return !currentTickets.length ? 
       <h1>Loading...</h1> :
       (
         <div className="page-container">
           <Navbar />
           <Sidebar />
-          <Header totalTickets={ ticketData.length }/>
+          <Header totalTickets={totalTickets}/>
           <table className="tickets-table">
             <tbody>
               <tr className="table-headers">
@@ -41,10 +58,10 @@ class App extends Component {
                 <th>Status</th>
                 <th>Priority</th>
               </tr>
-              <TicketList tickets={ this.state.ticketData }/>
+              <TicketList tickets={currentTickets}/>
             </tbody>
           </table>
-          <Pagination />
+          <Pagination pages={pages} loadPage={this.loadPage}/>
         </div>
       )
   }

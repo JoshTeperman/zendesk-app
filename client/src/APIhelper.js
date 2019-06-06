@@ -6,8 +6,39 @@ const getTickets = async () => {
   }
 
   const json = await response.json()  
-  const tickets = json.tickets
-  return formatTicketData(tickets)
+  const ticketData = formatTicketData(json.tickets)
+  const pages = {
+    nextPage: json.next_page,
+    previousPage: json.previous_page,
+  }
+  return {
+    ticketData: ticketData,
+    totalTickets: json.count,
+    pages: pages
+  }
+}
+
+const getPage = async (url) => {
+  const response = await fetch('http://localhost:5000/tickets/page', {
+    method: 'post',
+    body: url
+  });
+  
+  if (response.status !== 200) {
+    throw Error(response.message)
+  }
+
+  const json = await response.json()  
+  const ticketData = formatTicketData(json.tickets)
+  const pages = {
+    nextPage: json.next_page,
+    previousPage: json.previous_page,
+  }
+  return {
+    ticketData: ticketData,
+    totalTickets: json.count,
+    pages: pages
+  }
 }
 
 const formatTicketData = (tickets) => {
@@ -30,4 +61,5 @@ const formatTicketData = (tickets) => {
 
 
 
-module.exports.getTickets = getTickets
+module.exports.getTickets = getTickets;
+module.exports.getPage = getPage;
