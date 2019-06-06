@@ -52,12 +52,30 @@ string and needs to be parsed to be of any use to you.
 - Use basic authentication, see
 https://developer.zendesk.com/rest_api/docs/core/introduction#basic-authentication
 
-Sample Output
-Note: These are really basic samples only and not to be taken as prescriptive. We encourage
-you to format the ticket output in your own way.
-Sample CLI
-Sample Static Website
 
+# Approach
+
+Planning:
+- Draft Readme, including project plan, process and criteria 
+- Create Trello Board and populate with tasks and notes for the project
+- Create a Zendesk account and check out the Ticketing user interface & dashboard design
+- Create User stories based on project criteria and Zendesk dashboard design
+- Define feature requirements
+- Clearly define application MVP vs good-to-have features
+- Decide on the tech stack
+- Research & design the app architecture 
+- View test data by pinging API to understand what data will be available to sort / display
+- Create basic wireframes for dashboard and ticket list
+- List core React components required
+- List core methods required
+- Make list of Happy Path tests app will need
+- Make list of Unhappy Path tests app will need
+
+Building the App:
+- Build back-end server, 
+- Create-react-app on separate port and connect to back-end (test simple fetch => response => render())
+- Manually test my server requests to Zendesk API using POSTMAN
+- 
 
 
 
@@ -174,6 +192,20 @@ If submitting a ticket to Support, provide the X-Zendesk-Request-Id header inclu
 
 # Pagination & Sorting
 
+I decided to use the Zendesk API built-in pagination. Starting the application returns the first page after which the user can navigate forward or back through the pages using the paginiation buttons. Loading a page which hasn't been viewed before will result in a new API request for that page.
+
+Trade-offs:
+The downside of this system is that the app makes a separate asynchronous request to the API for every new page resulting in a slight delay every time. The advantages of this system is are:
+- Reduces chance of bugs: because the Zendesk API handles the pagination, creates the URLs for us, and lets us know when there are no previous_page or next_page those types of coding errors are eliminated from the code.
+- Efficent use of user data: Users will only download the pages that they want to view, when they want to view them.
+- Will perform the same no matter how many total tickets there are, that is O(1) for each page request.
+
+The other options I considered were:
+1) Request and load all tickets at once and manually split them up into pages of 25, saving them all in state and calling the required page when the user clicks on the page button. Advantage to this would be lightning-fast navigation speed between pages. Disadvanteges would be that the user downloads the entire data set every time, which will take O(n) time to complete and much higher chance of bugs being introduced into the pagination code.
+2) Request only the first page of tickets and display those, and run an asynchronous function that loops through each remaining next_page and saves them to state. This would be slightly faster for the user than option one as the page would load after only downloading the first 25 tickets, however the user would still be forced to download the entire set of tickets every time. 
+
+In cases where we can ensure that the total number of tickets is limited and within a reasonable range, alternative option 2 may give a better user experience than my solution as each page would load slightly faster, we would just have to set up more rigorous tests for bugs to ensure the paginated data is accurate.
+
 ## Limitations
 ```
 Paginated data may be inaccurate because of the real-time nature of the data. One or more items may be added or removed from your database instance between next page requests and during the course of iterating over all the items.
@@ -231,22 +263,6 @@ I was tossing up between using Mocha and Jest. Both are reputable software testi
 I wanted to employe TDD style development for this application. Before writing any code, I described user stories and functionality I wanted to have, defined the data structures my app would use, and based on that wrote descriptions of the Happy Paths and key Unit tests I would need to write to provide the most critical coverage of the code. 
 
 
-# Process
-- Draft Readme, including project plan, process and criteria 
-- Create a Zendesk account and check out the Ticketing user interface
-- Create User stories 
-- Define feature requirements
-- Define MVP
-- Decide tech stack
-- Decide architecture 
-- View test data by pinging API to understand what data will be available to sort / display
-- Wireframes / design based on actual Zendesk page
-- List necessary React components
-- List important methods
-- Create the app structure - build the server, create front-end create-react-app template
-- Install dependencies
-- Create first tests
-- Start building functionality until tests return pass
 
 
 
