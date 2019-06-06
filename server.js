@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const axios = require('axios')
+require('dotenv').config()
+
 
 // Middleware
 
@@ -39,8 +41,8 @@ app.post('/tickets/page', (req, res) => {
     method: 'get',
     url: url,
     auth: {
-      username: 'joshteperman@gmail.com',
-      password: 'zendesk'
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD
     }
   }
   axios(zendeskAPI)
