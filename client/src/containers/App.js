@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
+import SideNav from '../components/SideNav'
 import Navbar from './Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
@@ -24,18 +25,16 @@ class App extends Component {
 
   updatePage = (response) => {
     if (response.error) {
-      console.log('fron inside update page')
       this.setState({
         status: response.error
       })
-      console.log(this.state)
     } else {
       this.setState({ 
           currentTickets: response.ticketData,
           totalTickets: response.totalTickets,
           pages: response.pages,
           pageHistory: this.state.pageHistory.concat(response.ticketData),
-          status: 'tickets view'
+          status: 'tickets'
       })
     }
   }
@@ -55,9 +54,10 @@ class App extends Component {
     return(
         <div className="page-container">
           <Navbar />
+          <SideNav />
           <Sidebar />
           {status === 'loading' && <Loading />}
-          {status >= 400 && <ErrorScreen status={status}/>}
+          { (status >= 400 || status === 'server is down') && <ErrorScreen status={status}/>}
           {currentTickets && <Header totalTickets={totalTickets}/>}
           {currentTickets && <Table currentTickets={currentTickets} />}
           <Pagination pages={pages} loadPage={this.loadPage}/>

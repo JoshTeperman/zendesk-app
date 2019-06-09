@@ -4,9 +4,13 @@ const ErrorScreen = ({ status }) => {
 
   return(
     <div>
-      <h1>This is a friendly error</h1>
-      <p>Some information about what you should do.</p>
-      <h1>{status}</h1>
+      <h1>Oops! You got an error! </h1>
+      <h2>Error Status: {status}</h2>
+      <h4>So sorry about that.</h4>
+      { status === 'server is down' && 
+        <p>Looks like your Express Server might be down. If so, make sure you're in the root directory, and execute 'nodemon start' in console. Then try reloading the page. </p>
+      }
+      <p>If you still can't fix the problem, please contact support@zendesk.com and we'll get back to you ASAP!.</p>
     </div>
   )
 }

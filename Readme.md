@@ -1,11 +1,67 @@
-# Zendesk Internship Coding Challenge - Ticket Viewer
+# Zendesk Ticket Viewer
+
+## Contents
+
+**[About this Project](#About-CodingTutor)**\
+**[Installation Instructions](#Installation-Instructions)**
+
+# About this Project
+
+This project was a coding challenge written to apply for a Software Engineering Internship at Zendesk. The challenge was to create an application in any language that would retrieve ticketing data from the Zendesk API, and dispay that data in a web or CLI application. 
+
+At the time of receiving this challenge I had just completed learning Ruby on Rails at CoderAcademy Bootcamp. However, given the simplicity of the requirements of the challenge I decided that Rails would be unnecessarily heavy duty, and a static, single-page web application written in Javascript would be most appropriate. Given we had a full week to submit our application, I decided to learn Node Server, Express.js, React.js and the Jest testing suite for this project. Worst-case scenario I would learn an in-demand development stack that I was going to learn at some point anyway, and I felt challenging myself to learn something new would mirror the types of real world challenges developers face in the industry. 
 
 # Installation instructions
 
+### Step 1: Setting up the project locally
+
+1. To clone the repo to your local machine, navigate to the the directory you want to folder to be located in, and execute `git clone https://github.com/JoshTeperman/zendesk-app.git` in console. Alternatively, download the project as a zip file and extract the entire folder to your chosen directory.
+2. To install server dependencies, run either `yarn install` or `npm install` from the root of the project.
+3. To install client dependencies, cd into the `/client` folder and run either `yarn install` or `npm install`
+
+### Step 2: Starting the backend server
+
+4. Navigate to the root directory and run `nodemon start` in the terminal. You should see a console message saying `listening on port 5000`, indicating that the server is running.
+
+### Step 3: Start the Front end server
+
+5. Navigate to the `/client` directory and run either `yarn start` or `npm start`. This should start the react development server on an available port.
+
+### Step 4: Starting the app
+
+6. If your browser doesn't load the page automatically, navigate to `http://localhost:3000/tickets` in the browser of your choice.
+
+## Usage (Happy Path)
+
+After navigating to localhost:3000/tickets, the app will send a fetch request to the express server, which will then send a GET request using axios to the Zendesk API, retrieving and sending back the tickets for the requested account. These tickets are parsed to a useable format and rendered in a table in the browser window.
+
+Clicking a ticket will display additional information in a modal. To close the modal, the user can use the close button, click the background or press the escape key.
+
+You will see a message at the top of the page telling you the total number of tickets outstanding for this account, however only 25 tickets are fetched and displayed at any one time. Pagination buttons are included at the bottom of the Ticket List to allow you to view the rest of the tickets.
+
+## Running Tests
+
+To run the tests for the React code, cd into the `/react` directory, and run either `yarn test` or `npm test`
+
 ## Dependencies
-- Javascript
-- node.js, express,js, React.js
-- Jest
+### Server 
+- axios
+- body-parser
+- cors
+- dotenv
+- express
+- nodemon
+
+### Client
+- react
+- react-dom
+- react-responsive-modal
+- react-scripts
+
+### Testing
+- enzyme
+- jest
+
 
 # Challenge Description
 

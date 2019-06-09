@@ -3,217 +3,52 @@ import ReactDOM from 'react-dom';
 import { mount } from "enzyme";
 import App from '../containers/App';
 import Navbar from '../containers/Navbar';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import mockTickets from '../mocks/tickets.js';
+// import Sidebar from '../components/Sidebar';
+// import Header from '../components/Header';
+// import mockTickets from '../mocks/tickets.js';
 
 // --> Rendering page on load 
 
+// test.todo('App renders correctly'), () => {
+//     const wrapper = shallow(<App />)
+//     expect(toJSON(wrapper)).toMatchSnapshot()
+// }
 
 
+// __Happy PATH:__
 
+// 1) Page loads at root endpoint ('/tickets') 
 
-  
+// 2) App() renders the home page before calling any API data, which executes componentDoesMount()
+// - assert that componentDoesMount() is called once
+// - assert that the page loads and components display correctly
+// - assert that the loading screen displays
+// - (assert that any error in loading shows an error page)
 
-  // I set up a beforeEach that resets the props and mountedLockScreen variables before every test. Otherwise, state from one test would leak into another. By setting mountedLockScreen to undefined here, when the next test runs, if it calls lockScreen, a new LockScreen will be mounted with the current props.
-  beforeEach(() => {
-    props = {
-      wallpaperPath: undefined,
-      userInfoMessage: undefined,
-      onUnlocked: undefined,
-    };
-    mountedLockScreen = undefined;
-  });
+// 3) Async function getTickets() is called
+// - assert that getTickets() is called once
 
 
+// 7) App.js getTickets() function receives array of new ticket objects and updates this.state
+// - assert response object is an array of ticket objects
+// - assert updatePage() is called once with argument response-- assert updatePage sets the State correctly (currentTickets, totalTickets, pages, pageHistory), possibly use mock data
 
-  
-  describe('App component', () => {
-    
-    // it('renders without crashing', () => {
-    //   const div = document.createElement('div');
-    //   ReactDOM.render(<App />, div);
-    //   ReactDOM.unmountComponentAtNode(div);
-    // });
-    
+// 8) App.js render() is called with updated state, rendering tickets the the page.
+// - assert render() is called once
+// - assert loading screen unmounts
+// - assert tickets are rendered correctly
+// - assert that header message displays the correct number of tickets
 
-  // Setup App Component
+// 9) Pagination buttons display dynamically
+// - assert pagination buttons disappear when pages.nextPage || pages.previous_page === null
+// - assert pagination buttons appear when pages.nextPage || pages.previous_page === 'url'
 
-  let state;
-  let mountedAppComponent;
+// 10) Ticket display updates when page buttons are clicked
+// - assert PageButton onClick method loadPage() is called once when clicked with argument link (url)
+// - assert getTickets() is called once
+// - assert updatePage() is called once, the state is changed, and render() updates the display
 
-  // I create an AppComponent function that is available anywhere within the describe function, that uses the AppComponent variable to either mount an AppComponent with the current props or return the one that has already been mounted. This function returns an enzyme ReactWrapper. We will use it in every test.
-  const AppComponent = () => {
-    if (!mountedAppComponent) {
-      mountedAppComponent = mount(
-        <AppComponent {...state} />
-      );
-    }
-    return mountedAppComponent;
-  }
+// 11) Loading a new page saves the page to pageHistory
+// 12) Use pageHistory to load pages that have already been viewed
 
-
-  beforeEach(() => {
-    state = {
-      currentTickets: [],
-      totalTickets: null,
-      pages: {},
-      pageHistory: [],
-      status: 'loading'
-    }
-    mountedAppComponent = undefined;
-  });
-
-
-  it('always renders a div', () => {
-    // renders all elements within that div
-    // const div = 
-    // expect div.children().toEqual() = 
-  })
-
-  it('always renders a Navbar', () => { 
-    expect(App().find(Navbar).length).toBe(1);
-  })
-
-  it('always renders a Sidebar', () => { 
-  })
-
-  it('always renders a Sidebar', () => { 
-  })
-
-  test.todo('calls getTickets() once on page load'), () => {
-  }
-
-  describe("when `currentTickets.length === 0`", () => {
-    beforeEach(() => {
-      // this.state.currentTickets = [];
-    });
-
-    it("sets this.state.status to `loading`", () => {
-      // const slideToUnlock = lockScreen().find(SlideToUnlock);
-      // expect(slideToUnlock.props().onSlide).not.toBeDefined();
-    });
-  });
-
-  describe('when `currentTickets.length > 0`', () => {
-    befeoreEach(()=> {
-      // this.state.currentTickets = mockTickets()
-    })
-
-    it('always renders a TicketList', () => { 
-    })
-
-    it('sends props to Header Component', () => { 
-    })
-    
-    it('sends props to PageButton Components', () => { 
-    })
-
-
-  }) 
-
-  describe('when this.state.status is changed', () => {
-    test.todo('loading screen is displayed when state.status is set to loading'), () => {
-    }
-    
-    test.todo('error screen is displayed when state.status is set to error'), () => {
-    }
-    
-    test.todo('unavailable screen is displayed when state.status is set to unavailable'), () => {
-    }
-  })
-
-
-
-
-
-
-  describe('the Header component', () => {
-    test.todo('displays the correct number of tickets '), () => {
-      // test multiple values (if count === 1 etc)
-    }
-  })
-
-
-  test.todo('getTickets requests and receives correctly formatted data from back-end'), () => {
-    // getTickets() requests data from fetch, which returns mock
-  }
-
-  test.todo('updatePage() is called once and sets the state correctly'), () => {
-  }
-
-  test.todo('the ticketList view is updated correctly after updatePage() runs setState()'), () => {
-  }
-
-})
-
-
-
-
-// --> Error Handling
-
-// Errors:
-// expect(value)
-//   .toThrow(error)
-//   .toThrowErrorMatchingSnapshot()
-
-test.todo('displays an error screen'), () => {
-
-}
-
-test.todo('displays an unavailable screen'), () => {
-}
-
-
-
-
-// it('render correctly text component', () => {
-  // const TextInputComponent = renderer.create(<TextInput />).toJSON();
-  // expect(TextInputComponent).toMatchSnapshot();
-// });
-
-// Snapshot:
-// expect(value)
-//   .toMatchSnapshot()
-
-// Object:
-// expect(value)
-//   .toBeInstanceOf(Class)
-//   .toMatchObject(object)
-//   .toHaveProperty(keyPath, value)
-
-// Object:
-// expect(value)
-//   .toContain(item)
-//   .toContainEqual(item)
-//   .toHaveLength(number)
-
-// String:
-// expect(value)
-//   .toMatch(regexpOrString)
-
-
-
-
-
-
-
-
-// Before
-
-// Do
-
-// Assert
-
-
-
-
-// Focus on behaviours - If API returns a 404 error, my app behaves in (assert) way
-// What brings the most value?
-// Check API calls return either data (on success) or error 
-
-
-// Most important stuff to test (Where shit can break):
-
-
-
+// 15) Hover on ticket shows ticket details

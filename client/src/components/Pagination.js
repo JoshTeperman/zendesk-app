@@ -10,11 +10,12 @@ const Pagination = ({pages, loadPage}) => {
       { pages.previousPage && <PageButton 
         link={previousPage} 
         loadPage={loadPage} 
-        value={'Previous'}/> 
+        value={'Prev'}/> 
       }
       { pages.nextPage && <PageButton 
         link={nextPage} 
-        loadPage={loadPage} value={'Next'}/> 
+        loadPage={loadPage} 
+        value={'Next'}/> 
       }
     </div>
   )

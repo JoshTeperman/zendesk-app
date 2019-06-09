@@ -2,7 +2,6 @@ const getTickets = async () => {
   try {
     const response = await fetch('http://localhost:5000/tickets');
     if (response.status !== 200) {
-      // let error = await response.json()
       let error = await response.text()
       console.log(response.status)
       console.log(error.msg)
@@ -25,9 +24,11 @@ const getTickets = async () => {
     }
   }
   catch(err) {
-    console.log('hello from instide getTicket catch')
+    console.log('hello from inside getTicket catch')
     console.log(err)
-    return {errMessage: 'express server is down'}
+    return {
+      error: 'server is down'
+    }
   }
 }
 
@@ -49,6 +50,7 @@ const getPage = async (url) => {
     pages: pages
   }
 }
+
 
 const formatTicketData = (tickets) => {
   const ticketsArray = tickets.map((ticket) => {
@@ -72,7 +74,3 @@ module.exports.getTickets = getTickets;
 module.exports.getPage = getPage;
 module.exports.formatTicketData = formatTicketData;
 
-  // if (response.status !== 200) {
-  //   throw Error(response.message)
-    // return error result to front end
-  // }

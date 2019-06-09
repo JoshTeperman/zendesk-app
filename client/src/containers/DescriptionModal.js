@@ -20,7 +20,7 @@ class DescriptionModal extends React.Component {
     const { open } = this.state;
     return (
       <div>
-        <button onClick={this.onOpenModal}>View</button>
+        <button className="view-button" onClick={this.onOpenModal}>View</button>
         <Modal 
           open={ open } 
           onClose={ this.onCloseModal } 

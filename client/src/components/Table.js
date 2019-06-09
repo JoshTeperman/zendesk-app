@@ -19,5 +19,4 @@ const Table = ({ currentTickets }) => {
   )
 }
 
-
 export default Table;
