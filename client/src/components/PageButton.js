@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PageButton = ({ link, loadPage }) => {
+const PageButton = ({ link, loadPage, value }) => {
   return(
-    <button onClick={() => loadPage(link)}> Link </button>
+    <button onClick={() => loadPage(link)}> { value } </button>
   )
 }
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../styles/App.css';
 import Navbar from './Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import TicketList from '../components/TicketList'
 import Pagination from '../components/Pagination'
-const apiModule = require('../APIHelper.js')
+const helper = require('../APIHelper.js')
 
 
 class App extends Component {
@@ -15,7 +15,8 @@ class App extends Component {
       currentTickets: [],
       totalTickets: null,
       pages: {},
-      pageHistory: []
+      pageHistory: [],
+      status: 'loading'
     }
   }
 
@@ -29,19 +30,24 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const response = await apiModule.getTickets()
+    const response = await helper.getTickets()
     this.updatePage(response)
+    console.log(response)
   }
 
   loadPage = async (url) => {
-    const response = await apiModule.getPage(url)
-    console.log(response)
-    console.log(this)
+    const response = await helper.getPage(url)
     this.updatePage(response)
   }
 
   render(){
     const {currentTickets, totalTickets, pages} = this.state
+    /* return (
+      {status === 'loading' && <Loading />}
+      {status === 'error' && <Error status={status}/>}
+      {response.status && <ErrorScreen error={errorStatus} />}
+
+    ) */ 
     return !currentTickets.length ? 
       <h1>Loading...</h1> :
       (
@@ -52,6 +58,7 @@ class App extends Component {
           <table className="tickets-table">
             <tbody>
               <tr className="table-headers">
+                <th></th>
                 <th>Subject</th>
                 <th>Requested</th>
                 <th>Requester</th>

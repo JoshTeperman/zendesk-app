@@ -1,20 +1,28 @@
 const getTickets = async () => {
-  const response = await fetch('http://localhost:5000/tickets');
-  
-  if (response.status !== 200) {
-    throw Error(response.message)
+  try {
+    const response = await fetch('http://localhost:5000/tickets');
+    if (response.status !== 200) {
+      let error = await response.json()
+      console.log(error.msg)
+      console.log(error.stack)
+    } else {
+      const json = await response.json()  
+      const ticketData = formatTicketData(json.tickets)
+      const pages = {
+        nextPage: json.next_page,
+        previousPage: json.previous_page,
+      }
+      return {
+        ticketData: ticketData,
+        totalTickets: json.count,
+        pages: pages
+      } 
+    }
   }
-
-  const json = await response.json()  
-  const ticketData = formatTicketData(json.tickets)
-  const pages = {
-    nextPage: json.next_page,
-    previousPage: json.previous_page,
-  }
-  return {
-    ticketData: ticketData,
-    totalTickets: json.count,
-    pages: pages
+  catch(err) {
+    console.log('hello from instide getTicket catch')
+    console.log(err)
+    return {errMessage: 'express server is down'}
   }
 }
 
@@ -23,10 +31,6 @@ const getPage = async (url) => {
     method: 'post',
     body: url
   });
-  
-  if (response.status !== 200) {
-    throw Error(response.message)
-  }
 
   const json = await response.json()  
   const ticketData = formatTicketData(json.tickets)
@@ -59,7 +63,11 @@ const formatTicketData = (tickets) => {
   return ticketsArray
 }
 
-
-
 module.exports.getTickets = getTickets;
 module.exports.getPage = getPage;
+module.exports.formatTicketData = formatTicketData;
+
+  // if (response.status !== 200) {
+  //   throw Error(response.message)
+    // return error result to front end
+  // }
