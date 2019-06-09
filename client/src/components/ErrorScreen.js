@@ -1,15 +1,15 @@
 import React from 'react'
 
-const ErrorScreen = ({ errorStatus }) => {
+const ErrorScreen = ({ status }) => {
 
   return(
     <div>
       <h1>This is a friendly error</h1>
       <p>Some information about what you should do.</p>
+      <h1>{status}</h1>
     </div>
   )
 }
-
 export default ErrorScreen;
 
 // If submitting a ticket to Support, provide the X-Zendesk-Request-Id header included in the HTTP response. This helps the Support team track down the request in the logs more quickly.
@@ -20,6 +20,7 @@ export default ErrorScreen;
 
 /*
 200-300 success
+401 
 
 403
 Error Status 403: The server has determined the user or the account doesn’t have the required permissions to use the API.

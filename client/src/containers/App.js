@@ -3,7 +3,9 @@ import '../styles/App.css';
 import Navbar from './Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
-import TicketList from '../components/TicketList'
+import Table from '../components/Table'
+import Loading from '../components/Loading'
+import ErrorScreen from '../components/ErrorScreen'
 import Pagination from '../components/Pagination'
 const helper = require('../APIHelper.js')
 
@@ -12,7 +14,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      currentTickets: [],
+      currentTickets: undefined,
       totalTickets: null,
       pages: {},
       pageHistory: [],
@@ -21,18 +23,26 @@ class App extends Component {
   }
 
   updatePage = (response) => {
-    this.setState({ 
-        currentTickets: response.ticketData,
-        totalTickets: response.totalTickets,
-        pages: response.pages,
-        pageHistory: this.state.pageHistory.concat(response.ticketData)
-    })
+    if (response.error) {
+      console.log('fron inside update page')
+      this.setState({
+        status: response.error
+      })
+      console.log(this.state)
+    } else {
+      this.setState({ 
+          currentTickets: response.ticketData,
+          totalTickets: response.totalTickets,
+          pages: response.pages,
+          pageHistory: this.state.pageHistory.concat(response.ticketData),
+          status: 'tickets view'
+      })
+    }
   }
 
   async componentDidMount() {
     const response = await helper.getTickets()
     this.updatePage(response)
-    console.log(response)
   }
 
   loadPage = async (url) => {
@@ -41,36 +51,18 @@ class App extends Component {
   }
 
   render(){
-    const {currentTickets, totalTickets, pages} = this.state
-    /* return (
-      {status === 'loading' && <Loading />}
-      {status === 'error' && <Error status={status}/>}
-      {response.status && <ErrorScreen error={errorStatus} />}
-
-    ) */ 
-    return !currentTickets.length ? 
-      <h1>Loading...</h1> :
-      (
+    const {currentTickets, totalTickets, pages, status} = this.state
+    return(
         <div className="page-container">
           <Navbar />
           <Sidebar />
-          <Header totalTickets={totalTickets}/>
-          <table className="tickets-table">
-            <tbody>
-              <tr className="table-headers">
-                <th></th>
-                <th>Subject</th>
-                <th>Requested</th>
-                <th>Requester</th>
-                <th>Status</th>
-                <th>Priority</th>
-              </tr>
-              <TicketList tickets={currentTickets}/>
-            </tbody>
-          </table>
+          {status === 'loading' && <Loading />}
+          {status >= 400 && <ErrorScreen status={status}/>}
+          {currentTickets && <Header totalTickets={totalTickets}/>}
+          {currentTickets && <Table currentTickets={currentTickets} />}
           <Pagination pages={pages} loadPage={this.loadPage}/>
         </div>
-      )
+    )
   }
 }
 

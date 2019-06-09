@@ -30,11 +30,7 @@ app.get('/tickets', (req, res) => {
       res.send(response.data)
     })
     .catch((err) => {
-      let stack = err.stack
-      res.status(err.response.status).send({
-        msg: 'sending special message',
-        stack: stack
-      })
+      res.sendStatus(err.response.status)
     })
 })
 
@@ -50,11 +46,7 @@ app.post('/tickets/page', (req, res) => {
       res.send(response.data)
     })
     .catch((err) => {
-      let stack = err.stack
-      res.status(err.response.status).send({
-        msg: 'sending special message',
-        stack: stack
-      })
+      res.sendStatus(err.response.status)
     })
 })
 

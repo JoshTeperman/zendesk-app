@@ -2,9 +2,14 @@ const getTickets = async () => {
   try {
     const response = await fetch('http://localhost:5000/tickets');
     if (response.status !== 200) {
-      let error = await response.json()
+      // let error = await response.json()
+      let error = await response.text()
+      console.log(response.status)
       console.log(error.msg)
       console.log(error.stack)
+      return {
+        error: response.status
+      }
     } else {
       const json = await response.json()  
       const ticketData = formatTicketData(json.tickets)
