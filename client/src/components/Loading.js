@@ -1,8 +1,10 @@
 import React from 'react';
+import Skeleton from 'react-skeleton-loading'
+
 
 const Loading = () => {
   return(
-    <h1> Loading... </h1>
+      <span style={{'fontSize': '25px', 'margin': '15px'}}><Skeleton count={25}/></span>
   )
 }
 

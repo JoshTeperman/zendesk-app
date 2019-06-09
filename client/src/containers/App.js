@@ -60,6 +60,7 @@ class App extends Component {
           { (status >= 400 || status === 'server is down') && <ErrorScreen status={status}/>}
           {currentTickets && <Header totalTickets={totalTickets}/>}
           {currentTickets && <Table currentTickets={currentTickets} />}
+
           <Pagination pages={pages} loadPage={this.loadPage}/>
         </div>
     )
