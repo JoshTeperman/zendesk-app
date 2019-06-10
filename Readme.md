@@ -1,4 +1,69 @@
-# Zendesk Internship Coding Challenge - Ticket Viewer
+# Zendesk Ticket Viewer
+
+## Contents
+
+**[About this Project](#About-CodingTutor)**\
+**[Installation Instructions](#Installation-Instructions)**
+
+# About this Project
+
+This project was a coding challenge written to apply for a Software Engineering Internship at Zendesk. The challenge was to create an application in any language that would retrieve ticketing data from the Zendesk API, and dispay that data in a web or CLI application. 
+
+At the time of receiving this challenge I had just completed learning Ruby on Rails at CoderAcademy Bootcamp. However, given the simplicity of the requirements of the challenge I decided that Rails would be unnecessarily heavy duty, and a static, single-page web application written in Javascript would be most appropriate. Given we had a full week to submit our application, I decided to learn Node Server, Express.js, React.js and the Jest testing suite for this project. Worst-case scenario I would learn an in-demand development stack that I was going to learn at some point anyway, and I felt challenging myself to learn something new would mirror the types of real world challenges developers face in the industry. 
+
+# Installation instructions
+
+### Step 1: Setting up the project locally
+
+1. To clone the repo to your local machine, navigate to the the directory you want to folder to be located in, and execute `git clone https://github.com/JoshTeperman/zendesk-app.git` in console. Alternatively, download the project as a zip file and extract the entire folder to your chosen directory.
+2. To install server dependencies, run either `yarn install` or `npm install` from the root of the project.
+3. To install client dependencies, cd into the `/client` folder and run either `yarn install` or `npm install`
+
+### Step 2: Starting the backend server
+
+4. Navigate to the root directory and run `nodemon start` in the terminal. You should see a console message saying `listening on port 5000`, indicating that the server is running.
+
+### Step 3: Start the Front end server
+
+5. Navigate to the `/client` directory and run either `yarn start` or `npm start`. This should start the react development server on an available port.
+
+### Step 4: Starting the app
+
+6. If your browser doesn't load the page automatically, navigate to `http://localhost:3000/tickets` in the browser of your choice.
+
+## Usage (Happy Path)
+
+After navigating to localhost:3000/tickets, the app will send a fetch request to the express server, which will then send a GET request using axios to the Zendesk API, retrieving and sending back the tickets for the requested account. These tickets are parsed to a useable format and rendered in a table in the browser window.
+
+Clicking a ticket will display additional information in a modal. To close the modal, the user can use the close button, click the background or press the escape key.
+
+You will see a message at the top of the page telling you the total number of tickets outstanding for this account, however only 25 tickets are fetched and displayed at any one time. Pagination buttons are included at the bottom of the Ticket List to allow you to view the rest of the tickets.
+
+## Running Tests
+
+To run the tests for the React code, cd into the `/react` directory, and run either `yarn test` or `npm test`
+
+## Dependencies
+### Server 
+- axios
+- body-parser
+- cors
+- dotenv
+- express
+- nodemon
+
+### Client
+- react
+- react-dom
+- react-responsive-modal
+- react-scripts
+
+### Testing
+- enzyme
+- jest
+
+
+# Challenge Description
 
 `Zendesk is a customer service tool that allows the creation and management of support tickets.`
 
@@ -53,7 +118,7 @@ string and needs to be parsed to be of any use to you.
 https://developer.zendesk.com/rest_api/docs/core/introduction#basic-authentication
 
 
-# Approach
+# Project Plan:
 
 Planning:
 - Draft Readme, including project plan, process and criteria 
@@ -77,35 +142,20 @@ Building the App:
 - Manually test my server requests to Zendesk API using POSTMAN
 - 
 
+# Application Functionality
 
-
-# Description of the Application
 I decided to build a static single-page website that loads when the user visits the home url. On loading the page, for navigation the view will display a list of tickets (including the total number of tickets available) as well as the page number.
 
 __MVP__
 - Display tickets on page load - single page view
-- Tickets are displayed newest to oldest, to minimise pagination errors.
+- Tickets are displayed newest to oldest to minimise pagination errors.
 - Display tickets in list with full details visible
 - Pagination (25 per page)
 - Happy Path Tests
-- Error handling
+- Error handling > console.log(error message) for developers, & display nice message in browser for users
 - Handle API being unavailable
 
-
-__EXTENDED__
-- Display Tickets in a table like the real app
-- View ticket details on hover / click
-- Other Dashboard elements
-  - Views sidebar
-  - Navigation / Navbar
-- Sorting
-- Click to select with CRUD
-- Advanced API unavilable / error messages
-
-
 # Architecture
-
-
 
 ## Back End
 - Node.js & Express.js
@@ -116,14 +166,9 @@ __EXTENDED__
 - React.js UI
 - HTML and CSS
 
-# Installation instructions
+# Design Decisions
 
-## Dependencies
-- Javascript
-- node.js, express,js, React.js
-- Jest
-
-# Error Handling
+## Error Handling
 - If API request returns (error), then ... show nice error page
   - Explanation: Returned an error / could not be found etc etc
   - Requester
@@ -134,7 +179,7 @@ __EXTENDED__
 - Max API requests per limit (Essential plan: 10, team: 200)
 
 
-# API
+## API
 
 AUTHENTICATION
 ```
@@ -162,35 +207,10 @@ The Zendesk API is a JSON API. You must supply a Content-Type: application/json 
 Response format
 The Zendesk API responds to successful requests with HTTP status codes in the 200 or 300 range. When you create or update a resource, the API renders the resulting JSON representation in the response body and sets a Location header pointing to the resource.
 
-400 range
-The request was not successful. The content type of the response may be text/plain for API-level error messages, such as when trying to call the API without SSL. The content type is application/json for business-level error messages because the response includes a JSON object with information about the error
 
-403
-A 403 response means the server has determined the user or the account doesn’t have the required permissions to use the API.
-
-409
-A 409 response can indicate a merge conflict, but it often indicates a uniqueness constraint error in our database due to the attempted simultaneous creation of a resource. Try your API call again.
-
-In general, the Zendesk API can handle concurrent API requests but the requests shouldn't be talking about the same resources such as the same requester. Serialize requests where possible.
-
-422 Unprocessable Entity
-A 422 response means that the content type and the syntax of the request entity are correct, but the content itself is not processable by the server. This is usually due to the request entity not being relevant to the resource that it's trying to create or update. Example: Trying to close a ticket that's already closed.
-
-429
-A 429 error indicates that the rate limit has been exceeded. See Rate Limits.
-```
-```
-500 range
-A 503 response with a Retry-After header indicates a database timeout or deadlock. You can retry your request after the number of seconds specified in the Retry-After header.
-
-If the 503 response doesn't have a Retry-After header, Zendesk Support may be experiencing internal issues or undergoing scheduled maintenance. In such cases, check @zendeskops and our status page for any known issues.
-
-When building an API client, we recommend treating any 500 status codes as a warning or temporary state. However, if the status persists and we don't have a publicly announced maintenance or service disruption, contact us at support@zendesk.com.
-
-If submitting a ticket to Support, provide the X-Zendesk-Request-Id header included in the HTTP response. This helps the Support team track down the request in the logs more quickly.
 ```
 
-# Pagination & Sorting
+## Pagination & Sorting
 
 I decided to use the Zendesk API built-in pagination. Starting the application returns the first page after which the user can navigate forward or back through the pages using the paginiation buttons. Loading a page which hasn't been viewed before will result in a new API request for that page.
 
@@ -206,7 +226,7 @@ The other options I considered were:
 
 In cases where we can ensure that the total number of tickets is limited and within a reasonable range, alternative option 2 may give a better user experience than my solution as each page would load slightly faster, we would just have to set up more rigorous tests for bugs to ensure the paginated data is accurate.
 
-## Limitations
+### Pagination Limitations
 ```
 Paginated data may be inaccurate because of the real-time nature of the data. One or more items may be added or removed from your database instance between next page requests and during the course of iterating over all the items.
 
@@ -250,20 +270,131 @@ For tickets, another option is to use the incremental ticket export endpoint. Th
 
 Another option is to use the reporting feature in Zendesk Support to export data to a CSV or XML file. For details, see Exporting data to a CSV or XML file (Plus and Enterprise) .
 
-```
-
+## Data Privacy
+In a production project I would secure credentials in a .env file using the dotenv module, and add .env to the git-ignore file so they wouldn't be pushed to the GitHub repo. However in this case I decided to push the .env file up to GitHub given there is no serious security risk, and using the application will be easier. 
 
 
 # Testing
-Run npm run test
+
+```npm run test```
+
 Jest testing Suite
+
 Rationale:
 I was tossing up between using Mocha and Jest. Both are reputable software testing suites used by the Javascript Community. At time of writing, Jest on NPM has approximately 3.7M monthly downloads, and Mocha 2.24M. Either would have been seeing as Facebook uses Jest and it has a larger user base I went with Jest. It also runs out-of-the box with create-react-apps which means I didn't have to waste time on configuration for what it a short project. 
 
 I wanted to employe TDD style development for this application. Before writing any code, I described user stories and functionality I wanted to have, defined the data structures my app would use, and based on that wrote descriptions of the Happy Paths and key Unit tests I would need to write to provide the most critical coverage of the code. 
 
 
+Strategy:
+- learn the basics
+- write what needs to be tested
+- write sudo code tests
+- write tests
+- test tests
+- rewrite tests
 
+... mock data is used when testing functions that mutate data (formatTicketData())
+... testing behaviour first 
+-> if any errors, does the app show the right error message?
+-> if function is called, does the application execute the next step?
+
+__Happy PATH:__
+
+1) Page loads at root endpoint ('/tickets') 
+
+2) App() renders the home page before calling any API data, which executes componentDoesMount()
+- assert that componentDoesMount() is called once
+- assert that the page loads and components display correctly
+- assert that the loading screen displays
+- (assert that any error in loading shows an error page)
+
+3) Async function getTickets() is called
+- assert that getTickets() is called once
+- assert that fetch() function is called once with argument ('http://localhost:5000/tickets')
+- (assert that any error in the fetch response shows the correct error page)
+
+4) Server.js runs a get request with axios('/tickets') to the Zendesk API
+- assert that a get request is called once
+- assert that the arguments are the following:
+    { 
+      method: get, 
+      url: 'https://joshteperman.zendesk.com/api/v2/tickets?per_page=25',  
+      auth: AUTH
+    }
+- (assert that any error in the get request response shows the correct error page)
+- (assert that authentication error displays correctly)
+
+5) APIHelper.js fetch function Response resolves and the JSON Object is parsed with .json()
+- assert that fetch function response.status is 200 
+- assert that the response object contains an object (with the right keys)
+- (assert that if response.status is not 200 the app shows the correct error page)
+
+6) APIHelper.js executes formatTicketData and saves the result (an Array) to ticketData variable
+- assert that formatTicketData() is called once with variable json.tickets
+- assert that the total ticket count is correct
+- assert that the array length is 25
+- assert that mock data is used to create ticket objects in correct format
+
+7) App.js getTickets() function receives array of new ticket objects and updates this.state
+- assert response object is an array of ticket objects
+- assert updatePage() is called once with argument response-- assert updatePage sets the State correctly (currentTickets, totalTickets, pages, pageHistory), possibly use mock data
+
+8) App.js render() is called with updated state, rendering tickets the the page.
+- assert render() is called once
+- assert loading screen unmounts
+- assert tickets are rendered correctly
+- assert that header message displays the correct number of tickets
+
+9) Pagination buttons display dynamically
+- assert pagination buttons disappear when pages.nextPage || pages.previous_page === null
+- assert pagination buttons appear when pages.nextPage || pages.previous_page === 'url'
+
+10) Ticket display updates when page buttons are clicked
+- assert PageButton onClick method loadPage() is called once when clicked with argument link (url)
+- assert getTickets() is called once
+- assert updatePage() is called once, the state is changed, and render() updates the display
+
+11) Loading a new page saves the page to pageHistory
+12) Use pageHistory to load pages that have already been viewed
+
+15) Hover on ticket shows ticket details
+
+__Unhappy PATH:__
+
+1) Components don't load correctly / Program Error\
+eg: componentDoesMount() === false\
+eg: components don't unmount
+- assert program displays happy error message with helpful options
+
+2) Zendesk API doesn't respond or gives error / Back-end server doesn't respond\
+eg: Promise doesn't resolve correctly\
+eg: Response.status === error
+- assert program displays happy error message ('try running npm start' etc)
+
+3) API responds, but with no data or wrong format or wrong data type\
+eg: ticketArray.length === 0 
+- assert program displays 'no tickets found' error message\
+eg: response.status === error\
+eg: program error
+- assert program display happy error message
+
+
+__PLUS++__\
+1) Grid Dashboard displays correctly 
+2) Height === 100vh, width === 100vw
+3) Scroll activates correctly
+4) Logo / links display correctly
+5) Ticket modal displays correctly
+6) Max API requests per limit (Essential plan: 10, team: 200)
+
+
+# Extending the app
+
+- View ticket details on hover
+- Checkbox for each ticket with options to edit, change status, respond etc
+- Working links in the Navbar
+- Sorting / Filtering tickets (using headers in the sidebar)
 
 
 # Supplementary 
@@ -281,6 +412,14 @@ https://reactjs.org/tutorial/tutorial.html
 - Dan Abramov blog post describing separation of concerns between Presentational and Container Components: 
 https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
 - 
+
+### Node:
+- Error Handling: The Node.js docs:
+https://nodejs.org/api/errors.html
+- Error Handling: The Definitive Guide to Handling Errors in Javascript:
+https://levelup.gitconnected.com/the-definite-guide-to-handling-errors-gracefully-in-javascript-58424d9c60e6
+
+
 
 ### Express.js
 - Express docs:

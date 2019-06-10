@@ -1,9 +1,17 @@
 import React from 'react'
+import DescriptionModal from '../containers/DescriptionModal'
 
-let Ticket = ({ subject, requested, requester, status, priority }) => {
-
-  return(
+let Ticket = ({ description, subject, requested, requester, status, priority }) => {
+  console.log(priority)
+  return( 
     <React.Fragment>
+      <td>
+        <DescriptionModal 
+          subject={subject}
+          description={description} 
+          status={status}
+        />
+      </td>
       <td>{subject}</td>
       <td>{requested}</td>
       <td>{requester}</td>

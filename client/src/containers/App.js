@@ -1,69 +1,69 @@
 import React, { Component } from 'react';
-import './App.css';
-import Navbar from './Navbar'
+import '../styles/App.css';
+import SideNav from '../components/SideNav'
+import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
-import TicketList from '../components/TicketList'
+import Table from '../components/Table'
+import Loading from '../components/Loading'
+import ErrorScreen from '../components/ErrorScreen'
 import Pagination from '../components/Pagination'
-const apiModule = require('../APIHelper.js')
+const helper = require('../APIHelper.js')
 
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      currentTickets: [],
+      currentTickets: undefined,
       totalTickets: null,
       pages: {},
-      pageHistory: []
+      pageHistory: [],
+      status: 'loading'
     }
   }
 
   updatePage = (response) => {
-    this.setState({ 
-        currentTickets: response.ticketData,
-        totalTickets: response.totalTickets,
-        pages: response.pages,
-        pageHistory: this.state.pageHistory.concat(response.ticketData)
-    })
+    if (response.error) {
+      this.setState({
+        status: response.error
+      })
+    } else {
+      this.setState({ 
+          currentTickets: response.ticketData,
+          totalTickets: response.totalTickets,
+          pages: response.pages,
+          pageHistory: this.state.pageHistory.concat(response.ticketData),
+          status: 'tickets'
+      })
+    }
   }
 
   async componentDidMount() {
-    const response = await apiModule.getTickets()
+    const response = await helper.getTickets()
     this.updatePage(response)
   }
 
   loadPage = async (url) => {
-    const response = await apiModule.getPage(url)
-    console.log(response)
-    console.log(this)
+    const response = await helper.getPage(url)
     this.updatePage(response)
   }
 
   render(){
-    const {currentTickets, totalTickets, pages} = this.state
-    return !currentTickets.length ? 
-      <h1>Loading...</h1> :
-      (
+    const {currentTickets, totalTickets, pages, status} = this.state
+    return(
         <div className="page-container">
           <Navbar />
+          <SideNav />
           <Sidebar />
-          <Header totalTickets={totalTickets}/>
-          <table className="tickets-table">
-            <tbody>
-              <tr className="table-headers">
-                <th>Subject</th>
-                <th>Requested</th>
-                <th>Requester</th>
-                <th>Status</th>
-                <th>Priority</th>
-              </tr>
-              <TicketList tickets={currentTickets}/>
-            </tbody>
-          </table>
+          {status === 'loading' && <Loading />}
+          { (status >= 400 || status === 'server is down') && <ErrorScreen status={status}/>}
+          {currentTickets && <Header totalTickets={totalTickets}/>}
+          {currentTickets && <Table currentTickets={currentTickets} />}
+
           <Pagination pages={pages} loadPage={this.loadPage}/>
         </div>
-      )
+    )
   }
 }
 

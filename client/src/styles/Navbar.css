@@ -1,0 +1,18 @@
+.navbar { 
+  border-bottom: 1px solid var(--gray);
+  grid-area: 1 / 2 / 2 / 4; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.add {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+.zendesk-links {
+  height: 100%;
+}

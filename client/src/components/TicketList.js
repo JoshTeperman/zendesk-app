@@ -11,6 +11,7 @@ let TicketList = ({ tickets }) => {
           return (
             <tr key={i}>
               <Ticket 
+                description={ticket.description}
                 subject={ticket.subject}
                 requested={ticket.requested}
                 requester={ticket.requester}

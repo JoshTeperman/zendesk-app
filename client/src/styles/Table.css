@@ -1,0 +1,20 @@
+.tickets-table { 
+  min-height: calc(100vh - 155px);
+  grid-area: 3 / 3 / 4 / 4; 
+  display: block;
+  overflow: auto;  
+}
+
+.view-button {
+  background: var(--orange);
+  color: white;
+  border-radius: 3px;
+}
+
+td, th {
+  padding: 10px 15px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--charcoal);
+  /* border-bottom: 1px solid gray; */
+}

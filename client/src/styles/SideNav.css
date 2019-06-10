@@ -1,0 +1,18 @@
+.side-nav { 
+  background: var(--darkgreen);
+  grid-area: 1 / 1 / 13 / 2; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zendesk-logo {
+  height: 40px;
+  width: 40px;
+  color: var(--palegreen);
+}
+
+.support-icons {
+
+}
