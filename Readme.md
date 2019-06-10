@@ -155,17 +155,6 @@ __MVP__
 - Error handling > console.log(error message) for developers, & display nice message in browser for users
 - Handle API being unavailable
 
-__EXTENDED__
-- Display Tickets in a table like the real app
-- View ticket details on hover / click
-- Other Dashboard elements
-  - Views sidebar
-  - Navigation / Navbar
-- Sorting
-- Click to select with CRUD
-- Advanced API unavilable / error messages
-
-
 # Architecture
 
 ## Back End
@@ -400,6 +389,12 @@ __PLUS++__\
 6) Max API requests per limit (Essential plan: 10, team: 200)
 
 
+# Extending the app
+
+- View ticket details on hover
+- Checkbox for each ticket with options to edit, change status, respond etc
+- Working links in the Navbar
+- Sorting / Filtering tickets (using headers in the sidebar)
 
 
 # Supplementary 

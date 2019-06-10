@@ -4,6 +4,8 @@
 @import './Pagination.css';
 @import './Sidebar.css';
 @import './Table.css'; 
+@import './DescriptionModal.css';
+
 
 * {
   margin: 0px;

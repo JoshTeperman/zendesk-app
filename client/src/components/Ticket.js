@@ -9,7 +9,7 @@ let Ticket = ({ description, subject, requested, requester, status, priority }) 
         <DescriptionModal 
           subject={subject}
           description={description} 
-          tags={status}
+          status={status}
         />
       </td>
       <td>{subject}</td>

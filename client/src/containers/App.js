@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
 import SideNav from '../components/SideNav'
-import Navbar from './Navbar'
+import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import Table from '../components/Table'

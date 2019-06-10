@@ -22,15 +22,18 @@ class DescriptionModal extends React.Component {
       <div>
         <button className="view-button" onClick={this.onOpenModal}>View</button>
         <Modal 
+          
           open={ open } 
           onClose={ this.onCloseModal } 
           center
           closeIconSize={12}
           ariaLabelledby={'ticket description'}
         >
-          <h2>{this.props.subject}</h2>
-          <h4>{this.props.status}</h4>
-          <p>{this.props.description}</p>
+          <div className="modal">
+            <h2 className="modal-header">{this.props.subject}</h2>
+            <h4 className="modal-status">{this.props.status}</h4>
+            <p className="modal-description">{this.props.description}</p>
+          </div>
         </Modal>
       </div>
     );

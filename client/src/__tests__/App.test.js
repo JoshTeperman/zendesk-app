@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount } from "enzyme";
 import App from '../containers/App';
-import Navbar from '../containers/Navbar';
+import Navbar from '../components/Navbar';
 // import Sidebar from '../components/Sidebar';
 // import Header from '../components/Header';
 // import mockTickets from '../mocks/tickets.js';

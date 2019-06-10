@@ -1,0 +1,25 @@
+.modal {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 3px;
+}
+
+.modal-header {
+  color: var(--charcoal)
+}
+
+.modal-status {
+  background: var(--orange);
+  color: white;
+  padding: 4px 7px;
+  border-radius: 3px;
+  margin: 8px 0;
+  width: 40px;
+}
+
+.modal-description {
+  color: var(--charcoal)
+
+}
