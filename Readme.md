@@ -42,7 +42,7 @@ Since this application uses Zendesk's Ticketing API, it requires a username and 
 
 ## Dependencies
 
-Your npm modules will be installed automatically when you run `npm install`. View the package.json files in root director and client director for a full list.
+Your npm modules will be installed automatically when you run `npm install`. View the package.json files in root directory and client directory for a full list.
 
 
 # Application Description
@@ -51,20 +51,21 @@ Your npm modules will be installed automatically when you run `npm install`. Vie
 
 This is a static single-page application that requests the ticket data for the user specified by their authentication credentials. On loading the web page, the React Client loads and mounts the container App Component and makes a fetch request to the backend API for ticket data.
 
-This request is routed to an axios get request that uses Basic Authentication to contact the Zendesk API and return either the first 25 tickets for that account in a JSON object, or an error status, either of which are then sent to the React Client. If the result is an error, the error code and error page are rendered in the browser, otherwise the ticket data is parsed to a useable formate and rendered in the browser in a table. Clicking on 'View' for each ticket will display individual ticket description in a modal. Clicking the exit button, pressing 'Esc' key, or clicking outside the modal window will close the modal. 
+This request is routed to an axios get request that uses Basic Authentication to contact the Zendesk API and return either the first 25 tickets for that account in a JSON object, or an error status, either of which are then sent to the React Client. If the result is an error, the error code and error page are rendered in the browser, otherwise the ticket data is parsed to a useable format and rendered in the browser in a table. Clicking on 'View' for each ticket will display individual ticket descriptions in a modal. Clicking the exit button, pressing 'Esc' key, or clicking outside the modal window will close the modal. 
 
-If the user account has more than 25 tickets in total, the client will dynamically create pagination buttons for each subsequent 25 tickets, and displays the total number of tickets in the user account at the top of the page. Clicking the 'Next' or 'Prev' pagination buttons will send another HTTP POST request to the backend, following the same process to contact Zendesk, retrieve the data, and display in the browser. 
+If the user account has more than 25 tickets in total, the client will dynamically create pagination buttons for each subsequent 25 tickets, and display the total number of tickets in the Header Component at the top of the page. Clicking the 'Next' or 'Prev' pagination buttons will send another HTTP POST request with the next_page or pre_page url to the backend, following the same process to contact Zendesk, retrieve the data, and display in the browser. 
 
 
 ## Architecture
 
 The software is separated into two main sections:
+
 - Backend Node.js API / server written with the Express.js module that routes client requests and in turn uses AXIOS to make requests for tickets to the Zendesk API.
-- Front end React.js 'client' which receives tickets from the backend API server, and serves those tickets in HTML, CSS and Javascript to a web browser.
+- Frontend React.js 'client' which receives tickets from the backend API server, and serves those tickets in HTML, CSS and Javascript to a web browser.
 
-This is a standard architecture for web appllications browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
+This is a standard architecture for web applications, as this is a common way to CORS errors, where browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
 
-This also allows me to safeguard authentication credentials, which are not accessible from the client.
+This also allows me to safeguard authentication credentials and the logic of the application from malicious attack, as that code is only accessible from the backend and a React application can only see the data served to it.
 
 # Approach
 
@@ -75,25 +76,25 @@ Having said that, I was limited in the end in the quality and breadth of the tes
 The intention with this application was to keep it as simple as possible, keeping in mind (1) useablility, (2) readability, and (3) extensibility.
 
 ### (1) Useability
-I wanted the UI to be very simple, intuitive, and fast for the user, showing as much relevant data as possible in a single page. The app is single page, uses colour sparingly, shows the ticket data centrally with clear headers, and uses orange to draw the eye to the View button so the user can understand where to press to get more information. Pagination is intended to allow the user to navigate quickly and easily through the number of tickets provided (approx 100), and would be extended with filters / number pagination assuming larger amounts of data.
+I wanted the UI to be very simple, intuitive, and fast for the user, showing as much relevant data as possible in a single page. The app is single page, uses colour sparingly, shows the ticket data centrally with clear headers, and uses orange to draw the eye to the 'View' button so the user can understand where to press to get more information. Pagination is intended to allow the user to navigate quickly and easily through the number of tickets provided (approx 100), and would be extended with filters / number pagination assuming larger amounts of data.
 
 ### (2) Readability & (3) Extensibility
-It was important for me to create code where the purpose would be immediately apparent to someone coming to the code for the first time, or myself in six months time. The structure is dilineated clearly: front-end client / back end server / components / styles / helper methdods, and test are grouped in blocks. 
+It was important for me to create code where the purpose would be immediately apparent to someone coming to the code for the first time, or myself in six months time. The structure is delineated clearly: frontend client / backend server / components / styles / helper methdods, and tests are grouped in blocks. 
 
 I have modularised my code where possible, followed DRY principles, and attempted to name varaibles and methods in ways that are declarative and logical. 
 
-I have also kept in mind the requirements for a much larger data set, for example using dyamic rendering of ticketing components in table using React Fragments, dynamic rendering of ticketing data, dynaic rendering of error messages, pagination buttons, and the Header component. These aspects will be useable no matter the dataset provided. 
+I have also kept in mind the requirements for a much larger data set, for example using dyamic rendering of ticketing components in a table using React Fragments, dynamic rendering of ticketing data, dynamic rendering of error messages, pagination buttons, and the Header Component. These aspects will be useable no matter the dataset provided. 
 
-## Pagination and Hangling Data Bottlenecks
+## Pagination and Handling Data Bottlenecks
 
-A key risk to application performance was the consideration of large amounts of ticket data. Give the size of many of Zendesk customers, I thought it was a reasonable assumption that there could be thousands, if not hundreds of thousands of tickets in some cases, orders of magnitude more than the 100 or so we are using in this test case. 
+A key risk to application performance was the consideration of large amounts of ticket data. Give the size of many of Zendesk's customers, I thought it was a reasonable assumption that there could be thousands, if not hundreds of thousands of tickets in some cases, orders of magnitude more than the 100 or so we are using in this test case. 
 
 I decided to use the Zendesk API built-in pagination to handle ticket loads, meaning tickets are downloaded and rendered in groups of 25. Starting the application returns the first page after which the user can navigate forward or back through the pages using the paginiation buttons. Loading a page which hasn't been viewed before will result in a new API request for that page.
 
 I made the assumption that the view would be structured in such a way that the most relevant / most urgent tickets would be displayed on the first page, limiting the number of cases where users would need to load and scroll through multiple pages to find tickets.
 
 Trade-offs:
-The downside of this system is that the app makes a separate asynchronous request to the API for every new page resulting in a slight delay every time. The advantages of this system is are:
+The downside of this system is that the app makes a separate asynchronous request to the API for every new page resulting in a slight delay every time. The advantages of this system are:
 - Reduces chance of bugs: because the Zendesk API handles the pagination, creates the URLs for us, and lets us know when there are no previous_page or next_page those types of coding errors are eliminated from the code.
 - Efficent use of user data: Users will only download the pages that they want to view, when they want to view them.
 - Will perform the same no matter how many total tickets there are, that is O(1) for each page request.
@@ -113,25 +114,25 @@ To improve ticket viewing and pagination further, if I had more time I would do 
 
 The client will display error messages depending on the error response status generated by the server. 
 
-I broke error handling up into the two areas HTTP requests are made and resolved within the code: within the APIHelper.js file, where fetch requests are made to the backend server, and within the server.js file, where axios get requests are made to the Zendesk API. In both cases, errors are caught in .catch blocks, and the appropriate error status is sent back to the front-end. This causes the state.status to be updated which loads the ErrorScreen Component, dynamically showing the appropriate error page. 
+I broke error handling up into the two areas HTTP requests are made and resolved within the code: within the `APIHelper.js` file, where `fetch` requests are made to the backend server, and within the `server.js` file, where `axios.get` requests are made to the Zendesk API. In both cases, errors are caught in `.catch` blocks, and the appropriate error status is sent back to the front-end. This causes the `state.status` to be updated which loads the ErrorScreen Component, dynamically showing the appropriate error page. 
 
-I have written a single Error page that flexibly fills out an error description, the error status, and instructions on how to contact support for ongoing issues (as well as a helpful error Doge). 
+I have written a single Error page that flexibly fills out an error description, the error status, and instructions on how to contact support for ongoing issues (as well as a helpful error Doge 🐶). 
 
-The most important errors that I wrote messages were:
+The most important errors that I wrote messages for were:
 - 401 & 403, which refer to Authentication errors
 - 404, 'Page not found'
 - 429, which refers to exceeding permitted API requests
-- 500 errors, which refer to the server being unavailable (due to scheduled maintenance etc
-- No response errors, which were identifiable by a 'getaddrinfo ENOTFOUND' response from the Zendesk API, but also return an 'undefined' response which I used to identify and catch them. I have return these as 500 errors for readability. This also covers instances of the internet being unavailable. 
+- 500 errors, which refer to the server being unavailable (due to scheduled maintenance etc)
+- No response errors, which were identifiable by a `getaddrinfo ENOTFOUND` response from the Zendesk API, but also return an 'undefined' response which I used to identify and catch them. I have return these as 500 errors for readability. This also covers instances of the internet being unavailable. 
 
 ### Assumptions:
 I did not include an error handler for status 402, which is reserved for 'payment required', as this application doesn't require payment, nor does the trial Zendesk Account. This would have to be included if these facts changed though. 
 
 ### Extending Error Handling
-If I had more time I would create a lot more detailed error descriptions and advice, and log error stack traces in the server for easier debugging. 
+If I had more time I would create a lot more detailed error descriptions and advice for to be included in the error page. I would also create an erro log with stack traces in the server for easier debugging. 
 
 ## Data Privacy
-In a production project I would secure credentials in a .env file using the dotenv module, and add .env to the git-ignore file so they wouldn't be pushed to the GitHub repo. However in this case I decided to push the .env file up to GitHub given there is no serious security risk, and using the application will be easier. 
+In a production project I would secure credentials in a `.env` file using the dotenv module, and add `.env` to the `git-ignore` file so they wouldn't be pushed to the GitHub repo. However in this case I decided to push the `.env` file up to GitHub given there is no serious security risk, and using the application will be easier. 
 
 # Testing
 
@@ -143,13 +144,13 @@ To run the test suite cd into the `/client` directory, and run `npm test`. This 
 
 ## Approach
 
-I was tossing up between using Mocha and Jest. Both are reputable software testing suites used by the Javascript Community. At time of writing, Jest on NPM has approximately 3.7M monthly downloads, and Mocha 2.24M. Either would have been seeing as Facebook uses Jest and it has a larger user base I went with Jest. It also runs out-of-the box with create-react-apps which means I didn't have to waste time on configuration for what it a short project. 
+I was tossing up between using Mocha and Jest. Both are reputable software testing suites used by the Javascript Community. At time of writing, Jest on NPM has approximately 4.1M monthly downloads, and Mocha 2.75M. Either would have been fine, but seeing as Facebook uses Jest and it has a larger user base I went with Jest. It also runs out-of-the box with create-react-apps which means I didn't have to waste time on configuration for what is a short project. 
 
 I initially wanted to employ TDD style development for this application, however given testing is still very new for me, I found it difficult to know how to write tests that I wouldn't have to immediately rewrite as I worked through the design of my application. This was also made more challenging given I was using React, Express and Jest all for the first time as well. I therefore decided to work up to the milestone of a working MVP application, and write tests from that point. 
 
-I found that this approach wasn't ideal, as adding tests at a later stage was more challening given the complexity of the tests required and the amount of code. While not ideal, I still feel it is in my best interest to practise testing and gain a better understanding of best-practise testing in the immediate short-term, so that I have at least a general understanding of the types of tests I would need and the application structure I would be working towards. 
+I found that this approach wasn't ideal, as adding tests at a later stage was more challening given the complexity of the tests required and the amount of code. I still feel it is in my best interest to practise testing and gain a better understanding of best-practise testing in the immediate short-term, so that I have at least a general understanding of the types of tests I would need and the application structure I would be working towards. 
 
-Learning to write tests is now my top priority. 
+__Learning to write tests is now my top priority.__ 
 
 I have tried to structure my tests in two sections, front-end and back-end. 
 
@@ -157,16 +158,16 @@ I have tried to structure my tests in two sections, front-end and back-end.
 - I have writting Happy Path tests to ensure get requests successfully return data from the API, return data in the expected format, format the data correctly, and return 25 tickets as expected.
 
 ### Front End
-- I have written tests to ensure that the App component and it's child components render as expected, and the state.status default is set to 'loading'.
+- I have written tests to ensure that the App component and it's child components render as expected, and the `state.status` default is set to `loading`.
 
 ### Assumptions
-- I assumed that ticket objects returned from the Zendesk API would be in the same format, and therefore I would not get undefined errors from unexpected attribute names or data types (for example id is expected to always be an integer, next_page urls are available etc). If this were ever not the case I assume there would be some kind of announcement given the magnitude of the change, and I would be able to update my code and tests accordingly.
+- I assumed that ticket objects returned from the Zendesk API would be in the same format, and therefore I would not get `undefined` errors from unexpected attribute names or data types (for example id is expected to always be an integer, next_page urls are available etc). If this were ever not the case I assume there would be some kind of announcement given the magnitude of the change, and I would be able to update my code and tests accordingly.
 
 ### Extending Tests
 
 I was disappointed not to complete more comprehensive testing, given the importance of testing in writing extendable and maintainable code. 
 
-If I had more time, the first thing I would do is complete tests for the front end components and their behaviour. This would include:
+If I had more time, the first thing I would do is complete tests for the front end components and their behaviour, and for confirming the behaviour of error handling. This would include:
 
 ### Front end
 - Confirming the mounting and unmounting of components on changes of state (error screen component, page buttons, header total tickets number.)
@@ -197,35 +198,35 @@ Error Handling
 
 # Extending the App
 
-If I had more time, I would exted the following areas (not necessarily in this order):
+If I had more time, I would extend the following areas (not necessarily in this order):
 
 - Add tests as described above
 - Sorting / Filtering tickets (using headers in the sidebar)
 - Default ticket order to oldest first to minimise duplicate ticket bugs
-- Create a more detailed error message page. In particular include more helpful suggestions with ideas about what might have gone wrong, links to differet services within Zendesk, built-in option to create a new customer service ticket
-- add a chatbot to speak directly to customer service
+- Create a more detailed error message page. In particular include more helpful suggestions with ideas about what might have gone wrong, links to different services within Zendesk, built-in option to create a new customer service ticket
+- Add a chatbot to speak directly to customer service
 - Add page numbers, first page / last page to Pagination to help users navigate through large numbers of tickets
-- Add hover to view ticket details modal for quick-view
+- Add hover functionality to view ticket-details-modal
 - Checkbox for each ticket with options to edit, change status, respond etc
-- Fill out CRUD functionality for tickets
+- CRUD functionality for tickets
 - Add ability to assign ownership to certain tickets, add team members
 - Create user profile view for ticket creators so users can respond to customers with personal, relevant information
-- Format imestamp rendering to a human readable format
-- Use the people API to render the ticket creator's name instead of an id number
+- Format timestamp rendering to a human readable format
+- Render the ticket creator's name instead of an id number
 - Create working links in the Navbar and SideNav
 
 
 # Known Issues
-There is a bug with rendering error pages during pagination that I was unable to solve. For some reason the ticket page does not get replaced by the error page, even though it uses the same code, I've confirmed the application state.status is being updated to the correct error, and I have no issues when testing this code to load the first 25 tickets. I worked through this but with three mentors, and nobody was able to find a solution. The most likely solution was using `this.forceUpdate()`, but that didn't work either. If I had more time I would look further for a solution, or refactor the code to try and find an alternative. 
+There is a bug with rendering error pages during pagination that I was unable to solve. For some reason the ticket page does not get replaced by the error page, even though it uses the same code. I've confirmed the application `state.status` is being updated to the correct error, and I have no issues when testing this code to load the first 25 tickets. I worked through this with three mentors, and nobody was able to find a solution. The most likely solution was using `this.forceUpdate()`, but that didn't work either. If I had more time I would look further for a solution, or refactor the code to try and find an alternative. 
 
 # About the Author
 
-LinkedIn: www.linkedin.com/in/joshteperman\
+LinkedIn: www.linkedin.com/in/joshteperman<br>
 Website: www.josht.dev
 
 # Supplementary Materials
 
-These are my references used for research during this project. Please feel free to use as a reference if you would like to learn more:
+These are some of my references used for research during this project. Please feel free to use as a reference if you would like to learn more:
 
 ### Learning React:
 - Read the Official React Docs:
@@ -259,3 +260,4 @@ https://www.freecodecamp.org/news/this-is-why-we-need-to-bind-event-handlers-in-
 https://medium.com/@maison.moa/setting-up-an-express-backend-server-for-create-react-app-bc7620b20a61
 - Blog post on deploying React App with Express server on Heroku:
 https://www.freecodecamp.org/news/how-to-deploy-a-react-app-with-an-express-server-on-heroku-32244fe5a250/
+
