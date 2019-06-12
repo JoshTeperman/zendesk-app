@@ -2,7 +2,6 @@ import React from 'react'
 import DescriptionModal from '../containers/DescriptionModal'
 
 let Ticket = ({ description, subject, requested, requester, status, priority }) => {
-  console.log(priority)
   return( 
     <React.Fragment>
       <td>

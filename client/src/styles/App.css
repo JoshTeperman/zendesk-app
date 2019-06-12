@@ -5,6 +5,9 @@
 @import './Sidebar.css';
 @import './Table.css'; 
 @import './DescriptionModal.css';
+@import './Skeleton.css';
+@import './ErrorScreen.css';
+
 
 
 * {

@@ -6,10 +6,11 @@ require('dotenv').config()
 
 // Middleware
 
-const port = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 app.use(express.text())
+
+const port = process.env.PORT || 5000
 
 const AUTH = {
   username: process.env.USERNAME,
@@ -30,7 +31,11 @@ app.get('/tickets', (req, res) => {
       res.send(response.data)
     })
     .catch((err) => {
-      res.sendStatus(err.response.status)
+      if (err.response === undefined) {
+        res.sendStatus(500)
+      } else if (err.response.status) {
+        res.sendStatus(err.response.status)
+      }
     })
 })
 
@@ -46,12 +51,16 @@ app.post('/tickets/page', (req, res) => {
       res.send(response.data)
     })
     .catch((err) => {
-      res.sendStatus(err.response.status)
+      if (err.response === undefined) {
+        res.sendStatus(500)
+      } else if (err.response.status) {
+        res.sendStatus(err.response.status)
+      }
     })
 })
 
-app.listen(port, (req, res) => {
-  console.log(`listening on port ${port}`)
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
 })
 
 

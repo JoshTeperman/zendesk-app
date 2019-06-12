@@ -18,7 +18,6 @@ class App extends Component {
       currentTickets: undefined,
       totalTickets: null,
       pages: {},
-      pageHistory: [],
       status: 'loading'
     }
   }
@@ -33,7 +32,6 @@ class App extends Component {
           currentTickets: response.ticketData,
           totalTickets: response.totalTickets,
           pages: response.pages,
-          pageHistory: this.state.pageHistory.concat(response.ticketData),
           status: 'tickets'
       })
     }
@@ -56,11 +54,10 @@ class App extends Component {
           <Navbar />
           <SideNav />
           <Sidebar />
+          {(status >= 400 || status === 'Server Down') && <ErrorScreen status={status}/>}
           {status === 'loading' && <Loading />}
-          { (status >= 400 || status === 'server is down') && <ErrorScreen status={status}/>}
           {currentTickets && <Header totalTickets={totalTickets}/>}
           {currentTickets && <Table currentTickets={currentTickets} />}
-
           <Pagination pages={pages} loadPage={this.loadPage}/>
         </div>
     )

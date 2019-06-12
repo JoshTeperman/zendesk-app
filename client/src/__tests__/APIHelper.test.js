@@ -1,54 +1,51 @@
-import { getTickets, getPage } from '../containers/App';
-import { formatTicketData, add } from '../APIHelper';
+import { formatTicketData } from '../APIHelper';
+import { mockJSONDataP1, mockJSONDataP2 } from '../__mocks__/ticketDataJSON.js'
+import { mockFormattedTickets } from '../__mocks__/mockFormattedTickets.js'
 
-import { mockTicketsArray } from '../__mocks__/tickets.js'
-import { mockGetTickets } from '../__mocks__/mockGetTickets';
-const mockData = require('../__mocks__/tickets.json')
-
-// mockGetTickets
-//   .mockReturnValueOnce({number: 10})
-
-describe('fetch')
-// - assert that fetch() function is called once with argument ('http://localhost:5000/tickets')
-// - (assert that any error in the fetch response shows the correct error page)
 
 describe('formatTicketData', () => {
-  let formattedTickets;
-
-  beforeEach(() => {
-    formattedTickets = formatTicketData(mockTicketsArray);
-  })
+  let formattedTickets = formatTicketData(mockJSONDataP1.tickets)
 
   test('formats ticketArray correctly', () => {
-    expect(formattedTickets[1]).toEqual(
-      {
-        id: 2,
-        subject: 'Test ticket',
-        description: 'Test ticket body',
-        status: 'open',
-        type: null,
-        priority: null,
-        tags: [],
-        requested: '2019-05-30T03:27:05Z',
-        requester: 382347803272
-      }
-    );
+    expect(formattedTickets).toEqual(mockFormattedTickets)
   })
 
-  test('formatted tickets array should be the right length', () => {
-    expect(formattedTickets.length).toBe(3)
+  test('returned tickets Array should be only 25', () => {
+    expect(formattedTickets.length).toBe(25)
   })
+})
 
+describe('fetch', () => {
+  test('fetch returns ticket data from Zendesk API', async () => {
+    const response = await fetch('http://localhost:5000/tickets');
+    const json = await response.json()  
+    expect(json).toEqual(mockJSONDataP1)
+  })
+  
+})
 
+test('post request with next_page url successfuly executes a get request to Zendesk API', async () => {
+  const url = 'https://joshteperman.zendesk.com/api/v2/tickets.json?page=2&per_page=25'
+  const response = await fetch('http://localhost:5000/tickets/page', {
+    method: 'post',
+    body: url
+  });
+  const json = await response.json()  
+  expect(json).toEqual(mockJSONDataP2)
 })
 
 
 
-// test.todo('formatTicketData() is called once with the parsed response object'), () => {
-// }
+  // UNHAPPY PATH (1):
+  // if (response.status !== 200)
 
+  // - (assert that any error in the fetch response shows the correct error page)
+  // assert correct response.status is returned
 
-// --> Error handling 
+  // UNHAPPY PATH (2):
+  // feed fetch wrong headers -> check it responds with the right error
+  // raise throw error from fetch()
+  // assert function returns error: 'server is down'
 
 
 
