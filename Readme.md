@@ -21,7 +21,7 @@ At the time of receiving this challenge I had just completed learning Ruby on Ra
 
 ### Step 2: Starting the backend server
 
-4. Navigate to the root directory and run `nodemon start` in the terminal. You should see a console message saying `listening on port 5000`, indicating that the server is running.
+4. Navigate to the root directory and run `nodemon start` in the terminal. You should see a console message saying `Server is running on port 5000`, indicating that the server is running.
 
 ### Step 3: Start the Front end server
 
