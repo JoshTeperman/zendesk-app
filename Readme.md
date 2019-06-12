@@ -1,9 +1,6 @@
 # Zendesk Ticket Viewer
 
-## Contents
-
-**[About this Project](#About-CodingTutor)**\
-**[Installation Instructions](#Installation-Instructions)**
+![Zendesk Logo](client/src/images/zendesk-medium.svg)
 
 # About this Project
 
