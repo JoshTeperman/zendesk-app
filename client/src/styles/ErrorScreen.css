@@ -1,0 +1,51 @@
+.error-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: 2 / 3 / 5 / 4;
+}
+
+.error-messages {
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.error-doge {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
+
+.error-title {
+  font-size: 52px;
+}
+
+.error-tagline {
+  font-size: 30px;
+}
+
+.error-screen p {
+  margin: 10px;
+  padding: 0 20px;
+}
+
+.error-screen img {
+  width: 300px;
+}
+
+.no-response, .error-status {
+  font-size: 120px;
+  width: 450px;
+  color: var(--orange);
+  text-align: center;
+}
+.no-response {
+  font-size: 100px;
+  width: auto;
+}

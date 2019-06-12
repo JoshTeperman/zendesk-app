@@ -148,12 +148,25 @@ I decided to build a static single-page website that loads when the user visits 
 
 __MVP__
 - Display tickets on page load - single page view
-- Tickets are displayed newest to oldest to minimise pagination errors.
 - Display tickets in list with full details visible
 - Pagination (25 per page)
 - Happy Path Tests
 - Error handling > console.log(error message) for developers, & display nice message in browser for users
 - Handle API being unavailable
+
+# Screenshots
+
+Home Page:
+![screenshot-index](client/src/images/screenshot-index.png)
+
+Ticket Modal:
+![screenshot-modal](client/src/images/screenshot-modal.png)
+
+Loading Skeletons:
+![screenshot-skeletons](client/src/images/screenshot-skeletons.png)
+
+Error Screen"
+![screenshot-error]()
 
 # Architecture
 
@@ -285,6 +298,8 @@ I was tossing up between using Mocha and Jest. Both are reputable software testi
 
 I wanted to employe TDD style development for this application. Before writing any code, I described user stories and functionality I wanted to have, defined the data structures my app would use, and based on that wrote descriptions of the Happy Paths and key Unit tests I would need to write to provide the most critical coverage of the code. 
 
+Notes:
+Used a snapshot for main App component rendering, as well as checking that each component loads using find(Component).length, as I wasn't 100% certain of how sturdy each approach was. Better to be safe than sorry. 
 
 Strategy:
 - learn the basics
@@ -379,6 +394,11 @@ eg: response.status === error\
 eg: program error
 - assert program display happy error message
 
+4) Import tickets with missing fields
+- assert ticket will still display
+
+<!-- Extending Tests -->
+Mock Axios
 
 __PLUS++__\
 1) Grid Dashboard displays correctly 
@@ -395,7 +415,15 @@ __PLUS++__\
 - Checkbox for each ticket with options to edit, change status, respond etc
 - Working links in the Navbar
 - Sorting / Filtering tickets (using headers in the sidebar)
+- Add page numbers, first page / last page to Pagination (Navigation through more than 4-5 pages will become tiresome, and there's likely to be a lot more than 100 tickets)
 
+# Known Issues
+possible issues with pagination - sort from oldest to newest to avoid
+this.forceUpdate()
+
+
+# Assumptions
+Data: assume id's are submitted, of the dataype integer
 
 # Supplementary 
 

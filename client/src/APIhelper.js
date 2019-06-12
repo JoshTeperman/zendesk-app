@@ -2,10 +2,6 @@ const getTickets = async () => {
   try {
     const response = await fetch('http://localhost:5000/tickets');
     if (response.status !== 200) {
-      let error = await response.text()
-      console.log(response.status)
-      console.log(error.msg)
-      console.log(error.stack)
       return {
         error: response.status
       }
@@ -24,33 +20,43 @@ const getTickets = async () => {
     }
   }
   catch(err) {
-    console.log('hello from inside getTicket catch')
-    console.log(err)
     return {
-      error: 'server is down'
+      error: 'Server Down'
     }
   }
 }
 
 const getPage = async (url) => {
-  const response = await fetch('http://localhost:5000/tickets/page', {
-    method: 'post',
-    body: url
-  });
-
-  const json = await response.json()  
-  const ticketData = formatTicketData(json.tickets)
-  const pages = {
-    nextPage: json.next_page,
-    previousPage: json.previous_page,
+  try {
+    const response = await fetch('http://localhost:5000/tickets/page', {
+      method: 'post',
+      body: url
+    });
+  
+    if (response.status !== 200) {
+      return {
+        error: response.status
+      }
+    } else {
+      const json = await response.json()  
+      const ticketData = formatTicketData(json.tickets)
+      const pages = {
+        nextPage: json.next_page,
+        previousPage: json.previous_page,
+      }
+      return {
+        ticketData: ticketData,
+        totalTickets: json.count,
+        pages: pages
+      }
+    }
   }
-  return {
-    ticketData: ticketData,
-    totalTickets: json.count,
-    pages: pages
+  catch(err) {
+    return {
+      error: 'Server Down'
+    }
   }
 }
-
 
 const formatTicketData = (tickets) => {
   const ticketsArray = tickets.map((ticket) => {
