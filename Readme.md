@@ -53,7 +53,7 @@ This is a static single-page application that requests the ticket data for the u
 
 This request is routed to an axios get request that uses Basic Authentication to contact the Zendesk API and return either the first 25 tickets for that account in a JSON object, or an error status, either of which are then sent to the React Client. If the result is an error, the error code and error page are rendered in the browser, otherwise the ticket data is parsed to a useable format and rendered in the browser in a table. Clicking on 'View' for each ticket will display individual ticket descriptions in a modal. Clicking the exit button, pressing 'Esc' key, or clicking outside the modal window will close the modal. 
 
-If the user account has more than 25 tickets in total, the client will dynamically create pagination buttons for each subsequent 25 tickets, and display the total number of tickets in the Header Component at the top of the page. Clicking the 'Next' or 'Prev' pagination buttons will send another HTTP POST request with the next_page or pre_page url to the backend, following the same process to contact Zendesk, retrieve the data, and display in the browser. 
+If the user account has more than 25 tickets in total, the client will dynamically create pagination buttons for each subsequent 25 tickets, and display the total number of tickets in the Header Component at the top of the page. Clicking the 'Next' or 'Prev' pagination buttons will send another HTTP POST request with the next_page or prev_page url to the backend, following the same process to contact Zendesk, retrieve the data, and display in the browser. 
 
 
 ## Architecture
@@ -63,7 +63,7 @@ The software is separated into two main sections:
 - Backend Node.js API / server written with the Express.js module that routes client requests and in turn uses AXIOS to make requests for tickets to the Zendesk API.
 - Frontend React.js 'client' which receives tickets from the backend API server, and serves those tickets in HTML, CSS and Javascript to a web browser.
 
-This is a standard architecture for web applications, as this is a common way to CORS errors, where browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
+This architecture is a common way to avoid CORS errors, where browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
 
 This also allows me to safeguard authentication credentials and the logic of the application from malicious attack, as that code is only accessible from the backend and a React application can only see the data served to it.
 
