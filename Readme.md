@@ -81,9 +81,9 @@ I wanted the UI to be very simple, intuitive, and fast for the user, showing as 
 ### (2) Readability & (3) Extensibility
 It was important for me to create code where the purpose would be immediately apparent to someone coming to the code for the first time, or myself in six months time. The structure is delineated clearly: frontend client / backend server / components / styles / helper methdods, and tests are grouped in blocks. 
 
-I have modularised my code where possible, followed DRY principles, and attempted to name varaibles and methods in ways that are declarative and logical. 
+I have modularised my code where possible, followed DRY principles, and attempted to name variables and methods in ways that are declarative and logical. 
 
-I have also kept in mind the requirements for a much larger data set, for example using dyamic rendering of ticketing components in a table using React Fragments, dynamic rendering of ticketing data, dynamic rendering of error messages, pagination buttons, and the Header Component. These aspects will be useable no matter the dataset provided. 
+I have also kept in mind the requirements for a much larger data set, for example using dynamic rendering of ticketing components in a table using React Fragments, dynamic rendering of ticketing data and error messages, pagination buttons, and the Header Component. These aspects will be useable no matter the dataset provided. 
 
 ## Pagination and Handling Data Bottlenecks
 
