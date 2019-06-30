@@ -15,19 +15,4 @@ exports[`App Component App and all it's child components render correctly 1`] = 
 </div>
 `;
 
-exports[`App Component App renders correctly 1`] = `
-<div
-  className="page-container"
->
-  <Navbar />
-  <SideNav />
-  <Sidebar />
-  <Loading />
-  <Pagination
-    loadPage={[Function]}
-    pages={Object {}}
-  />
-</div>
-`;
-
 exports[`App Component App state renders correctly 1`] = `undefined`;

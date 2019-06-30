@@ -44,6 +44,7 @@ class App extends Component {
 
   loadPage = async (url) => {
     const response = await helper.getPage(url)
+    
     this.updatePage(response)
   }
 

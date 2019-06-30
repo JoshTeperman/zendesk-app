@@ -63,7 +63,7 @@ The software is separated into two main sections:
 - Backend Node.js API / server written with the Express.js module that routes client requests and in turn uses AXIOS to make requests for tickets to the Zendesk API.
 - Frontend React.js 'client' which receives tickets from the backend API server, and serves those tickets in HTML, CSS and Javascript to a web browser.
 
-This architecture is a common way to avoid CORS errors, where browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
+This is a standard architecture for web applications, as this is a common way to solve CORS errors, where browsers restrict cross-origin HTTP requests that are initiated in browser. Therefore it was necessary to create my own endpoints for use by the browser, route requests via HTTP client to my own Web API, and then make requests to the Zendesk API from that web server. 
 
 This also allows me to safeguard authentication credentials and the logic of the application from malicious attack, as that code is only accessible from the backend and a React application can only see the data served to it.
 
@@ -123,16 +123,16 @@ The most important errors that I wrote messages for were:
 - 404, 'Page not found'
 - 429, which refers to exceeding permitted API requests
 - 500 errors, which refer to the server being unavailable (due to scheduled maintenance etc)
-- No response errors, which were identifiable by a `getaddrinfo ENOTFOUND` response from the Zendesk API, but also return an 'undefined' response which I used to identify and catch them. I have return these as 500 errors for readability. This also covers instances of the internet being unavailable. 
+- No response errors, which were identifiable by a `getaddrinfo ENOTFOUND` response from the Zendesk API, but also return an 'undefined' response which I used to identify and catch them. I have returned these as 500 errors for readability. This also covers instances of the internet being unavailable. 
 
 ### Assumptions:
 I did not include an error handler for status 402, which is reserved for 'payment required', as this application doesn't require payment, nor does the trial Zendesk Account. This would have to be included if these facts changed though. 
 
 ### Extending Error Handling
-If I had more time I would create a lot more detailed error descriptions and advice for to be included in the error page. I would also create an erro log with stack traces in the server for easier debugging. 
+If I had more time I would create a lot more detailed error descriptions and advice for to be included in the error page. I would also create an error log with stack traces in the server for easier debugging. 
 
 ## Data Privacy
-In a production project I would secure credentials in a `.env` file using the dotenv module, and add `.env` to the `git-ignore` file so they wouldn't be pushed to the GitHub repo. However in this case I decided to push the `.env` file up to GitHub given there is no serious security risk, and using the application will be easier. 
+In production I would secure credentials in a `.env` file using the dotenv module, and add `.env` to the `git-ignore` file so they wouldn't be pushed to the GitHub repo. However in this case I decided to push the `.env` file up to GitHub given there is no serious security risk, and using the application will be easier. 
 
 # Testing
 
@@ -155,7 +155,7 @@ __Learning to write tests is now my top priority.__
 I have tried to structure my tests in two sections, front-end and back-end. 
 
 ### Back End
-- I have writting Happy Path tests to ensure get requests successfully return data from the API, return data in the expected format, format the data correctly, and return 25 tickets as expected.
+- I have written Happy Path tests to ensure get requests successfully return data from the API, return data in the expected format, format the data correctly, and return 25 tickets as expected.
 
 ### Front End
 - I have written tests to ensure that the App component and it's child components render as expected, and the `state.status` default is set to `loading`.
@@ -261,3 +261,4 @@ https://medium.com/@maison.moa/setting-up-an-express-backend-server-for-create-r
 - Blog post on deploying React App with Express server on Heroku:
 https://www.freecodecamp.org/news/how-to-deploy-a-react-app-with-an-express-server-on-heroku-32244fe5a250/
 
+afoieaoifje

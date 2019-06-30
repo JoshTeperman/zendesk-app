@@ -21,7 +21,6 @@ describe('fetch', () => {
     const json = await response.json()  
     expect(json).toEqual(mockJSONDataP1)
   })
-  
 })
 
 test('post request with next_page url successfuly executes a get request to Zendesk API', async () => {
@@ -46,12 +45,6 @@ test('post request with next_page url successfuly executes a get request to Zend
   // feed fetch wrong headers -> check it responds with the right error
   // raise throw error from fetch()
   // assert function returns error: 'server is down'
-
-
-
-
-
-
 
 // 4) Server.js runs a get request with axios('/tickets') to the Zendesk API
 // - assert that a get request is called once

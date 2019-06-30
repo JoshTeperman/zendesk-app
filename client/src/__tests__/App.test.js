@@ -15,7 +15,6 @@ describe('App Component', () => {
 
   let mountedApp;
 
-
   const app = () => {
     if (!mountedApp) {
       mountedApp = mount(<App />);
@@ -35,10 +34,6 @@ describe('App Component', () => {
   it('App state renders correctly', () => {
     const state = app().state()
     expect(toJSON(state)).toMatchSnapshot()
-  })
-
-  it('App renders', () => {
-    expect(app().find(App).length).toBe(1);
   })
 
   it("always renders a `Navbar`", () => {
